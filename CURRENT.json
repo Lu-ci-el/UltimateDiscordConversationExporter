@@ -1,0 +1,30 @@
+{
+  "project": "UltimateDiscordConversationExporter",
+  "abbreviation": "UDCE",
+  "version": "0.0.1",
+  "authority": {
+    "file": "UltimateDiscordConversationExporter.plugin.js",
+    "bytes": 271002,
+    "sha256": "d168ba4eb099c2d2aa58b7350c7d4674a1718b362bd85f622c2afe35e3b5931e"
+  },
+  "directParent": {
+    "version": "0.0.1",
+    "pluginSHA256": "b49241c40087ea1be9efce699171ac14c19c47e81af2d6d67c695706f65d4cb1",
+    "zipSHA256": "9912694dc1ac9c526eef03ca84a530e01ba30931d4f6cbb70a5d92f2a56d9932"
+  },
+  "change": "Remove new-job export-time image-body saving UI/requests while retaining attachment URLs for HTML preview/browser download; add bottom conversation pagination; simplify progress display. Version remains 0.0.1.",
+  "sameVersionReplacement": "Explicitly requested by the user.",
+  "state": "ARTIFACT_COMPLETE_TARGET_RUNTIME_UNVERIFIED",
+  "verification": "tests/RESULTS.json",
+  "package": {
+    "name": "UltimateDiscordConversationExporter_0.0.1.zip",
+    "rootFolder": "UltimateDiscordConversationExporter",
+    "rootHasVersionSuffix": false,
+    "privateConversationDataIncluded": false
+  },
+  "repository": {
+    "url": "https://github.com/Lu-ci-el/UltimateDiscordConversationExporter",
+    "push": "NOT_PERFORMED",
+    "release": "NOT_PERFORMED"
+  }
+}
