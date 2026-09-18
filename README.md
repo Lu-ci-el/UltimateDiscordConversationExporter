@@ -1,221 +1,40 @@
 # UltimateDiscordConversationExporter
 
-## 日本語
+**UDCE 0.0.1 — BetterDiscord plugin**
 
-### 概要
+Discordの会話をローカル保存し、画像はHTMLで表示、必要な添付だけブラウザから選択保存できます。  
+Archive Discord conversations locally, display images in the HTML viewer, then selectively download the attachments you need.
 
-**UltimateDiscordConversationExporter** は、**BetterDiscordで使用するDiscord会話保存プラグイン**です。
+**[日本語説明書](README_JP.md) · [English manual](README_EN.md)**
 
-現在閲覧できるDiscordのDM・グループDM・テキストチャンネルの履歴を取得し、PCへローカル保存できます。
+## できること / Features
 
-追加ログイン・Discord Tokenの入力は不要です。  
-会話と選択した添付をローカル保存します。
+- **会話 / Conversation** — 日付区切り、検索、話者・期間フィルター、返信移動、TXT保存。上下にページ送りがあります。Date headings, search, author/date filters, reply navigation, TXT export and pagination at both the top and bottom.
+- **カレンダー / Calendar** — 全モード共通の日付選択、日付目次、選択解除。Shared date filtering, a date index and one-click clearing.
+- **添付 / Attachments** — 画像は保存済みDiscord CDN URLから表示。画像本体のExport時自動保存は新規Jobでは使いません。Inline images use recorded Discord CDN URLs; new jobs do not automatically save image bodies during export.
+- **ダウンロード / Downloads** — Explorer風一覧、Ctrl/Shift選択、毎回の確認、選択／絞り込み結果／全添付の保存。Explorer-style selection, confirmation before every operation and selected/filtered/all scopes.
+- **保護 / Protection** — 個別の伏字・仮名化、パスワード保護、旧Job再開。Granular redaction/aliases, password-protected archives and compatible resumable jobs.
+- **保存先 / Output folder** — Windows初回値 `C:\Discord_Exports`。手入力とネイティブな **📁 参照...** フォルダ選択に対応し、選択先を記憶。Windows first-run default `C:\Discord_Exports`, with manual entry and a native **📁 Browse...** folder picker whose selection is remembered.
 
-TXT形式、ブラウザで閲覧できるHTML形式、または両方で出力できます。
+## 導入 / Install
 
----
+BetterDiscordのPluginsフォルダに **`UltimateDiscordConversationExporter.plugin.js` だけ**を入れ、有効にしてください。  
+Place **only `UltimateDiscordConversationExporter.plugin.js`** in BetterDiscord's Plugins folder and enable it.
 
-### インストール方法
+追加ログイン・Token入力なし。  
+No additional login or token entry.
 
-1. **BetterDiscord** をインストールしたDiscordデスクトップ版を用意します。
-2. `UltimateDiscordConversationExporter.plugin.js` をBetterDiscordのPluginsフォルダへ入れます。
-3. Discordの **ユーザー設定 → BetterDiscord → Plugins** を開きます。
-4. `UltimateDiscordConversationExporter` をONにします。
-5. 保存したいDMまたはテキストチャンネルを開き、**Export** ボタンを押します。
+入れ替え時も、出力フォルダと `.udce_state` は残してください。詳しい手順は日英説明書を参照してください。  
+Keep existing output folders and `.udce_state` when replacing the plugin. See the manuals for replacement steps.
 
----
+## 状態 / Status
 
-### 基本的な使い方
+今回の差分はNode構文・新規Jobの画像保存OFF・URL保持・生成HTMLの上下ページャー/画像表示/ブラウザダウンロード経路を確認済みです。**Windows / Discord / BetterDiscord実機と実CDN/CORSは未確認**です。  
+The current delta was checked for syntax, image-save-off policy with URL retention, and generated viewer pagination/image/download paths. **Actual Windows / Discord / BetterDiscord and live CDN/CORS behavior remain unverified.**
 
-Export画面では、保存したい期間を**開始日時・終了日時**で指定できます。
+[変更履歴 / Changelog](CHANGELOG.md) · [検証範囲 / Verification scope](tests/README.md) · [実行結果 / Results](tests/RESULTS.json)
 
-Message URLまたはMessage IDを指定した場合は、日時よりそちらが優先されます。
+非公式のBetterDiscord用プラグインです。閲覧権限のある会話に使用し、共有時は権利とプライバシーを確認してください。配布用ファイルには実会話ログを含めません。新しいLICENSEは付与していません。  
+An unofficial BetterDiscord plugin. Use it for conversations you are authorized to access, and review rights and privacy before sharing. Distribution files contain no private conversation logs. No new software license is granted by this package.
 
-期間を指定せず、取得可能な最古または最新まで取得することもできます。
-
-出力先フォルダを指定し、出力形式を選択します。
-
-- **TXT**
-  - 会話全文をシンプルなテキストとして保存します。
-
-- **ブラウザHTML**
-  - Webブラウザで閲覧できます。
-  - 日付ごとの確認、検索、保存した画像の表示に向いています。
-
-- **両方**
-  - TXTとブラウザHTMLの両方を作成します。
-
----
-
-### 保存できる情報
-
-必要に応じて個別にON/OFFできます。
-
-- 添付ファイル情報
-- Embed（リンクプレビュー・タイトル等）
-- リアクション
-- 画像本体
-- 動画・音声
-- その他の添付ファイル
-
----
-
-### 履歴取得
-
-Discordの履歴をページ単位で順番に取得します。
-
-過去ログを見るために、手動でスクロールし続ける必要はありません。
-
-標準の要求間隔は **1000ms** です。
-
-取得中は以下を確認できます。
-
-- 現在到達している日時
-- 取得メッセージ数
-- 取得ページ数
-- 進捗率
-- 残り期間
-
-途中で停止した場合でも、再開可能なJobは **保存済み／再開** から続行できます。
-
----
-
-### プライバシー機能
-
-以下の機能を使用できます。
-
-- 名前・IDの仮名化
-- 秘密情報候補の伏字
-- パスワード保護
-
-共有用に保存する場合は、出力前に内容を確認してください。
-
-自動伏字では、画像内の文字・顔・添付ファイル内部などを完全には処理できません。
-
-取得した会話や添付ファイルは、指定したPC上のフォルダへ保存されます。
-
-プラグイン自身が会話内容を外部サービスへ送信する機能はありません。
-
----
-
-### 注意事項
-
-このプラグインは **BetterDiscord向けの非公式プラグイン** です。
-
-Discord、BetterDiscord、その他の関連サービスによって公式に提供・承認されたものではありません。
-
-自分が閲覧権限を持つ会話の保存を目的として使用してください。
-
-第三者の会話・画像・個人情報などを公開・再配布する場合は、それぞれの権利やプライバシーに注意してください。
-
----
-
-# English
-
-## Overview
-
-**UltimateDiscordConversationExporter** is a **Discord conversation archiving plugin for BetterDiscord**.
-
-It can save message history from DMs, group DMs, and text channels that you can currently access directly to your computer.
-
-No additional login or Discord token entry is required.  
-It saves conversations and selected attachments locally.
-
-Exports can be created as plain TXT, browser-friendly HTML, or both.
-
----
-
-## Installation
-
-1. Install **BetterDiscord** for the Discord desktop client.
-2. Place `UltimateDiscordConversationExporter.plugin.js` in your BetterDiscord Plugins folder.
-3. Open **Discord Settings → BetterDiscord → Plugins**.
-4. Enable `UltimateDiscordConversationExporter`.
-5. Open the DM or text channel you want to archive and press the **Export** button.
-
----
-
-## Basic Usage
-
-The Export window lets you select a **start date/time** and **end date/time**.
-
-You can also specify a Message URL or Message ID.
-
-When provided, the Message URL/ID takes priority over the date setting.
-
-You may also leave the range open to retrieve the oldest or newest history available.
-
-Choose an output folder and output format.
-
-- **TXT**
-  - Saves the full conversation as simple readable text.
-
-- **Browser HTML**
-  - Creates a browser-friendly archive.
-  - Useful for searching, browsing by date, and viewing locally saved images.
-
-- **Both**
-  - Creates both TXT and HTML output.
-
----
-
-## Optional Export Data
-
-The following can be enabled or disabled individually:
-
-- Attachment information
-- Embeds (link previews, titles, etc.)
-- Reactions
-- Local image files
-- Video and audio files
-- Other attachments
-
----
-
-## History Retrieval
-
-The plugin retrieves Discord history page by page automatically.
-
-You do not need to continuously scroll upward to load older messages manually.
-
-The default request interval is **1000 ms**.
-
-During an export, the progress view can show:
-
-- Oldest point reached
-- Message count
-- Page count
-- Progress percentage
-- Remaining range
-
-If an export is interrupted, resumable jobs can be continued from the **Saved / Resume** section when recovery data is available.
-
----
-
-## Privacy Features
-
-Optional privacy features include:
-
-- Pseudonymizing names and IDs
-- Redacting potential sensitive information
-- Password protection
-
-If you plan to share an exported archive, review its contents first.
-
-Automatic redaction cannot reliably remove text inside images, faces, attachment contents, or every possible piece of private information.
-
-Conversation data and selected attachments are saved to the local folder you choose.
-
-The plugin does not include a feature that uploads your conversation contents to an external service.
-
----
-
-## Disclaimer
-
-This is an **unofficial BetterDiscord plugin**.
-
-It is not officially provided, endorsed, or supported by Discord, BetterDiscord, or any other related service.
-
-Use it for conversations you are authorized to access.
-
-If you publish or redistribute another person's messages, images, or personal information, make sure you respect applicable privacy and intellectual-property rights.
+[GitHub](https://github.com/Lu-ci-el/UltimateDiscordConversationExporter) · [OFUSE](https://ofuse.me/lost) · [Ko-fi](https://ko-fi.com/lost2)
