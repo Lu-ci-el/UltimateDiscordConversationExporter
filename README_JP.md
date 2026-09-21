@@ -9,7 +9,7 @@
 
 [English manual](README_EN.md) · [GitHub](https://github.com/Lu-ci-el/UltimateDiscordConversationExporter) · [変更履歴](CHANGELOG.md) · [検証範囲](tests/README.md)
 
-> ChromeBrowserでは確認ずみ。検証済みの範囲と未確認事項は末尾に記載しています。
+> ChromeBrowserでは確認ずみ。
 
 ## 1. インストール・入れ替え
 
