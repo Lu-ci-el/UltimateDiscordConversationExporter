@@ -29,8 +29,10 @@ Keep existing output folders and `.udce_state` when replacing the plugin. See th
 
 ## 状態 / Status
 
-今回の差分はNode構文・新規Jobの画像保存OFF・URL保持・生成HTMLの上下ページャー/画像表示/ブラウザダウンロード経路を確認済みです。**Windows / Discord / BetterDiscord実機と実CDN/CORSは未確認**です。  
-The current delta was checked for syntax, image-save-off policy with URL retention, and generated viewer pagination/image/download paths. **Actual Windows / Discord / BetterDiscord and live CDN/CORS behavior remain unverified.**
+今回の差分はNode構文・新規Jobの画像保存OFF・URL保持・生成HTMLの上下ページャー/画像表示/ブラウザダウンロード経路を確認済みです。
+**ChromeBrowserでは確認済みです。Edgeは画像が表示されません。**  
+The current delta was checked for syntax, image-save-off policy with URL retention, and generated viewer pagination/image/download paths.
+**It has been confirmed with ChromeBrowser. Edge does not show an image.**
 
 [変更履歴 / Changelog](CHANGELOG.md) · [検証範囲 / Verification scope](tests/README.md) · [実行結果 / Results](tests/RESULTS.json)
 
